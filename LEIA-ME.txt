@@ -1,0 +1,51 @@
+# VidaLeve — Fase 11
+
+## O que foi implementado
+
+A Fase 11 adiciona o **Assistente VidaLeve** ao aplicativo existente.
+
+### Funções
+
+- análise dos últimos **7, 30 ou 90 dias**;
+- leitura dos registros de peso, alimentação e exercícios;
+- identificação de padrões:
+  - tendência de peso;
+  - estabilidade/possível platô;
+  - calorias abaixo/acima da referência;
+  - proteína abaixo da referência;
+  - atividade física;
+  - regularidade dos registros;
+- geração de **sugestões de planejamento**;
+- seleção das sugestões que o usuário deseja aprovar;
+- confirmação antes de qualquer ação;
+- histórico das sugestões aprovadas;
+- evento `vidaleve:assistant-approved` para integração futura com o planejamento semanal;
+- **nenhum dado é alterado automaticamente**.
+
+## Instalação
+
+No `index.html`, localize:
+
+```html
+<script src="app.js"></script>
+```
+
+e imediatamente depois acrescente:
+
+```html
+<script src="fase11.js"></script>
+```
+
+Coloque `fase11.js` na mesma pasta de `index.html` e `app.js`.
+
+Depois publique novamente no GitHub Pages.
+
+## Observação
+
+O módulo foi construído como extensão da estrutura atual do VidaLeve. Ele não substitui `app.js` e não apaga os dados existentes no `localStorage`.
+
+As sugestões aprovadas ficam registradas separadamente em:
+
+`VIDALEVE_ASSISTENTE_APROVADAS_V11`
+
+A etapa seguinte pode conectar esse histórico diretamente ao Planejamento Semanal da Fase 9, permitindo que uma sugestão aprovada seja transformada em uma alteração concreta somente após confirmação.
