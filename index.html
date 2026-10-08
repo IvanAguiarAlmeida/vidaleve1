@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VidaLeve</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div><h1>VidaLeve</h1><small>Controle de peso, alimentação e exercícios</small></div>
+  <div id="profileLabel">Perfil: Ivan</div>
+</header>
+
+<nav id="tabs">
+<button data-page="resumo">Resumo do Dia</button>
+<button data-page="perfil">Perfil</button>
+<button data-page="peso">Peso</button>
+<button data-page="alimentacao">Alimentação</button>
+<button data-page="exercicios">Exercícios</button>
+<button data-page="relatorios">Relatórios</button>
+<button data-page="seguranca">Backup</button>
+</nav>
+
+<main>
+<section id="resumo" class="page active">
+<h2>Resumo do Dia</h2>
+<div class="datebar"><label>Data <input id="summaryDate" type="date"></label></div>
+
+<div class="section-title">Hoje</div>
+<div class="grid">
+<div class="card metric"><b id="sumCal">0 kcal</b><span>Calorias consumidas</span></div>
+<div class="card metric"><b id="sumProt">0 g</b><span>Proteínas</span></div>
+<div class="card metric"><b id="sumCarb">0 g</b><span>Carboidratos</span></div>
+<div class="card metric"><b id="sumFat">0 g</b><span>Gorduras</span></div>
+<div class="card metric"><b id="sumFiber">0 g</b><span>Fibras</span></div>
+<div class="card metric"><b id="sumExercise">0 kcal</b><span>Exercícios</span></div>
+<div class="card metric"><b id="sumExerciseMin">0 min</b><span>Tempo de exercício</span></div>
+<div class="card metric"><b id="sumNet">0 kcal</b><span>Calorias líquidas</span></div>
+</div>
+
+<div class="section-title">Meta diária estimada</div>
+<div class="grid">
+<div class="card"><b id="sumCalNeed">—</b><span>Calorias</span><small id="calStatus" class="status"></small></div>
+<div class="card"><b id="sumProtNeed">—</b><span>Proteínas</span></div>
+<div class="card"><b id="sumCarbNeed">—</b><span>Carboidratos</span></div>
+<div class="card"><b id="sumFatNeed">—</b><span>Gorduras</span></div>
+<div class="card"><b id="sumFiberNeed">—</b><span>Fibras</span></div>
+</div>
+
+<div class="section-title">Evolução da meta de peso</div>
+<div class="card goal-card">
+<div class="goal-head"><strong id="goalTitle">Defina uma meta de peso no Perfil</strong><span id="goalPercent">—</span></div>
+<div class="progress"><div id="goalProgress"></div></div>
+<div class="goal-details">
+<span>Inicial: <b id="goalInitial">—</b></span>
+<span>Atual: <b id="sumWeight">—</b></span>
+<span>Meta: <b id="sumGoal">—</b></span>
+<span>Falta: <b id="sumToGoal">—</b></span>
+</div>
+</div>
+
+<div class="grid">
+<div class="card"><b id="sumBMI">—</b><span>IMC atual</span></div>
+<div class="card"><b id="sumChange">—</b><span>Variação desde o início</span></div>
+<div class="card"><b id="sumLowest">—</b><span>Menor peso registrado</span></div>
+</div>
+<p class="note">As metas calóricas são estimativas e servem como referência para acompanhamento.</p>
+</section>
+
+<section id="perfil" class="page">
+<h2>Perfil</h2>
+<div class="card form">
+<label>Pessoa <select id="profile"><option>Ivan</option><option>Mônica</option></select></label>
+<label>Nome <input id="name"></label>
+<label>Idade <input id="age" type="number" min="0"></label>
+<label>Sexo <select id="sex"><option value="M">Masculino</option><option value="F">Feminino</option></select></label>
+<label>Altura (cm) <input id="height" type="number" step="0.1" min="0"></label>
+<label>Peso atual (kg) <input id="currentWeight" type="number" step="0.1" min="0"></label>
+<label>Peso-meta (kg) <input id="goalWeight" type="number" step="0.1" min="0"></label>
+<label>Objetivo
+<select id="objective">
+<option value="perder">Perder peso</option>
+<option value="manter">Manter peso</option>
+<option value="ganhar">Ganhar peso</option>
+</select></label>
+<label>Fator de atividade
+<select id="activity">
+<option value="1.2">Sedentário</option>
+<option value="1.375">Levemente ativo</option>
+<option value="1.55">Moderadamente ativo</option>
+<option value="1.725">Muito ativo</option>
+</select></label>
+<button id="saveProfile">Salvar perfil</button>
+<span id="profileMessage" class="success"></span>
+</div>
+<div class="card">
+<h3>Meta</h3>
+<p id="profileGoalText" class="muted">Defina o peso-meta para acompanhar sua evolução.</p>
+</div>
+</section>
+
+<section id="peso" class="page">
+<h2>Controle de Peso</h2>
+<div class="datebar"><label>Data <input id="weightDate" type="date"></label></div>
+<div class="card form">
+<label>Peso (kg) <input id="weightValue" type="number" step="0.1" min="0"></label>
+<label>Observação <input id="weightNote" placeholder="Opcional"></label>
+<button id="saveWeight">Registrar peso</button>
+<button id="cancelWeightEdit" class="secondary" hidden>Cancelar edição</button>
+</div>
+
+<div class="grid">
+<div class="card metric"><b id="weightInitial">—</b><span>Peso inicial</span></div>
+<div class="card metric"><b id="weightCurrent">—</b><span>Peso atual</span></div>
+<div class="card metric"><b id="weightLowest">—</b><span>Menor peso</span></div>
+<div class="card metric"><b id="weightChange">—</b><span>Variação total</span></div>
+<div class="card metric"><b id="weightGoal">—</b><span>Peso-meta</span></div>
+<div class="card metric"><b id="weightGap">—</b><span>Falta para a meta</span></div>
+</div>
+
+<div class="card goal-card">
+<div class="goal-head"><strong>Progresso até a meta</strong><span id="weightGoalPercent">—</span></div>
+<div class="progress"><div id="weightGoalProgress"></div></div>
+</div>
+
+<div class="card"><h3>Evolução</h3><canvas id="weightChart" width="800" height="320"></canvas></div>
+<div class="card"><h3>Histórico</h3><div id="weightHistory"></div></div>
+</section>
+
+<section id="alimentacao" class="page">
+<h2>Alimentação</h2>
+<div class="datebar"><label>Data <input id="foodDate" type="date"></label></div>
+
+<div class="card form">
+<label>Refeição
+<select id="meal">
+<option>Café da manhã</option><option>Almoço</option><option>Lanche</option>
+<option>Jantar</option><option>Ceia</option>
+</select></label>
+<label>Alimento <select id="food"></select></label>
+<label>Quantidade (g) <input id="foodQty" type="number" value="100" min="1"></label>
+<button id="addFood">Adicionar alimento</button>
+</div>
+
+<div class="grid">
+<div class="card"><b id="foodCal">0 kcal</b><span>Calorias</span></div>
+<div class="card"><b id="foodProt">0 g</b><span>Proteínas</span></div>
+<div class="card"><b id="foodCarb">0 g</b><span>Carboidratos</span></div>
+<div class="card"><b id="foodFat">0 g</b><span>Gorduras</span></div>
+<div class="card"><b id="foodFiber">0 g</b><span>Fibras</span></div>
+</div>
+
+<div class="card">
+<h3>Refeições do dia</h3>
+<div id="mealSummary"></div>
+</div>
+
+<div class="card">
+<h3>Comparação com a meta</h3>
+<div class="nutrition-progress">
+  <div class="nutrition-row"><span>Calorias</span><b id="foodGoalText">—</b></div>
+  <div class="progress"><div id="foodGoalProgress"></div></div>
+  <small id="foodGoalStatus" class="muted"></small>
+</div>
+</div>
+
+<div class="card">
+<h3>Lançamentos</h3>
+<div id="foodLog"></div>
+</div>
+
+<div class="card custom-food-card">
+<h3>Cadastrar alimento personalizado</h3>
+<p class="muted">Informe os valores nutricionais referentes a 100 g do alimento.</p>
+<div class="form">
+<label>Nome <input id="customFoodName" placeholder="Ex.: Iogurte natural"></label>
+<label>Calorias (kcal) <input id="customFoodCal" type="number" min="0" step="0.1"></label>
+<label>Proteínas (g) <input id="customFoodProt" type="number" min="0" step="0.1"></label>
+<label>Carboidratos (g) <input id="customFoodCarb" type="number" min="0" step="0.1"></label>
+<label>Gorduras (g) <input id="customFoodFat" type="number" min="0" step="0.1"></label>
+<label>Fibras (g) <input id="customFoodFiber" type="number" min="0" step="0.1"></label>
+<button id="saveCustomFood">Cadastrar alimento</button>
+</div>
+<div id="customFoodMessage" class="success"></div>
+<div id="customFoodList"></div>
+</div>
+</section>
+
+<section id="exercicios" class="page">
+<h2>Exercícios</h2>
+<div class="datebar"><label>Data <input id="exerciseDate" type="date"></label></div>
+
+<div class="card form">
+<label>Exercício
+<select id="exerciseType">
+<option>Caminhada</option><option>Corrida</option><option>Bicicleta</option>
+<option>Musculação</option><option>Natação</option><option>Dança</option>
+<option>Alongamento</option><option>Outro</option>
+</select></label>
+<label>Duração (min) <input id="exerciseMin" type="number" min="1"></label>
+<label>Intensidade
+<select id="exerciseIntensity">
+<option value="leve">Leve</option>
+<option value="moderada" selected>Moderada</option>
+<option value="intensa">Intensa</option>
+</select></label>
+<button id="addExercise">Registrar exercício</button>
+<button id="cancelExerciseEdit" class="secondary" hidden>Cancelar edição</button>
+<div id="exerciseEstimate" class="muted"></div>
+</div>
+
+<div class="grid">
+<div class="card metric"><b id="exerciseCalories">0 kcal</b><span>Hoje — calorias</span></div>
+<div class="card metric"><b id="exerciseMinutes">0 min</b><span>Hoje — tempo</span></div>
+<div class="card metric"><b id="exerciseWeekCalories">0 kcal</b><span>Esta semana — calorias</span></div>
+<div class="card metric"><b id="exerciseWeekMinutes">0 min</b><span>Esta semana — tempo</span></div>
+<div class="card metric"><b id="exerciseMonthCalories">0 kcal</b><span>Este mês — calorias</span></div>
+<div class="card metric"><b id="exerciseMonthMinutes">0 min</b><span>Este mês — tempo</span></div>
+</div>
+
+<div class="card">
+<h3>Meta semanal de atividade</h3>
+<div class="nutrition-row"><span>Tempo de exercício</span><b id="exerciseGoalText">0 / 150 min</b></div>
+<div class="progress"><div id="exerciseGoalProgress"></div></div>
+<small id="exerciseGoalStatus" class="muted"></small>
+</div>
+
+<div class="card">
+<h3>Atividade da semana</h3>
+<canvas id="exerciseWeekChart" width="800" height="300"></canvas>
+</div>
+
+<div class="card">
+<h3>Calorias gastas por tipo</h3>
+<canvas id="exerciseTypeChart" width="800" height="300"></canvas>
+</div>
+
+<div class="card">
+<h3>Lançamentos do dia</h3>
+<div id="exerciseLog"></div>
+</div>
+
+<div class="card">
+<h3>Histórico recente</h3>
+<div id="exerciseHistory"></div>
+</div>
+</section>
+<section id="relatorios" class="page">
+<h2>Relatórios e Evolução</h2>
+
+<div class="card form report-controls">
+<label>Período
+<select id="reportPeriod">
+<option value="week">Semana atual</option>
+<option value="month">Mês atual</option>
+<option value="custom">Período personalizado</option>
+</select></label>
+<label>Data inicial <input id="reportStart" type="date"></label>
+<label>Data final <input id="reportEnd" type="date"></label>
+<button id="generateReport">Atualizar relatório</button>
+</div>
+
+<div class="section-title">Resumo do período</div>
+<div class="grid">
+<div class="card metric"><b id="reportWeightChange">—</b><span>Variação de peso</span></div>
+<div class="card metric"><b id="reportAvgWeight">—</b><span>Peso médio</span></div>
+<div class="card metric"><b id="reportAvgCalories">—</b><span>Média de calorias/dia</span></div>
+<div class="card metric"><b id="reportExerciseMin">0 min</b><span>Exercícios</span></div>
+<div class="card metric"><b id="reportExerciseCal">0 kcal</b><span>Calorias gastas</span></div>
+<div class="card metric"><b id="reportDays">0 / 0</b><span>Dias registrados</span></div>
+</div>
+
+<div class="card">
+<h3>Painel semanal</h3>
+<div class="week-panel">
+<div><span>⚖️ Peso</span><strong id="weekWeight">—</strong><small id="weekWeightCompare"></small></div>
+<div><span>🍽️ Alimentação</span><strong id="weekCalories">—</strong><small id="weekCaloriesCompare"></small></div>
+<div><span>🏃 Exercícios</span><strong id="weekExercise">—</strong><small id="weekExerciseCompare"></small></div>
+<div><span>📅 Registros</span><strong id="weekRegistered">—</strong><small id="weekRegisteredCompare"></small></div>
+</div>
+</div>
+
+<div class="card">
+<h3>Indicadores de evolução</h3>
+<div id="reportIndicators" class="indicator-list"></div>
+</div>
+
+<div class="card">
+<h3>Evolução do peso</h3>
+<canvas id="reportWeightChart" width="800" height="300"></canvas>
+</div>
+
+<div class="card">
+<h3>Calorias e exercícios</h3>
+<canvas id="reportActivityChart" width="800" height="300"></canvas>
+</div>
+
+<div class="card">
+<h3>Comparação com o período anterior</h3>
+<div id="periodComparison" class="comparison-box"></div>
+</div>
+
+<div class="card">
+<h3>Conclusão</h3>
+<p id="reportConclusion" class="report-conclusion">Registre seus dados para gerar uma análise.</p>
+</div>
+</section>
+
+<section id="seguranca" class="page">
+<h2>Backup e Segurança</h2>
+<p class="note">Exporte seus dados para guardar uma cópia fora do navegador. O arquivo de backup contém os dados do VidaLeve em formato JSON.</p>
+
+<div class="grid">
+<div class="card">
+<h3>Exportar dados</h3>
+<p>Baixe uma cópia completa dos seus perfis, pesos, alimentação, exercícios e alimentos personalizados.</p>
+<button id="exportData">Exportar dados</button>
+</div>
+
+<div class="card">
+<h3>Importar dados</h3>
+<p>Restaure dados a partir de um arquivo JSON exportado pelo VidaLeve.</p>
+<input id="importFile" type="file" accept="application/json,.json">
+<button id="importData">Importar arquivo</button>
+</div>
+
+<div class="card">
+<h3>Backup rápido</h3>
+<p>Crie um arquivo de backup com data e hora no nome.</p>
+<button id="quickBackup">Criar backup</button>
+</div>
+
+<div class="card">
+<h3>Imprimir / PDF</h3>
+<p>Abra a impressão do navegador para imprimir a tela atual ou salvar como PDF.</p>
+<button id="printPage">Imprimir / Salvar PDF</button>
+</div>
+</div>
+
+<div class="card">
+<h3>Último backup restaurado</h3>
+<p id="backupStatus" class="muted">Nenhum backup importado nesta sessão.</p>
+</div>
+
+<div class="card">
+<h3>Cuidados</h3>
+<ul>
+<li>Guarde o arquivo de backup em um local seguro.</li>
+<li>Antes de importar, o VidaLeve fará uma validação básica do arquivo.</li>
+<li>A importação substitui os dados atuais do VidaLeve neste navegador.</li>
+</ul>
+</div>
+</section>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
